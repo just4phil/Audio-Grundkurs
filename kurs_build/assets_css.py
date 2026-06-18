@@ -90,6 +90,18 @@ tbody tr:hover{background:#202935}
   padding:16px 18px;border-radius:var(--radius-s);margin:1em 0 1.4em;font-size:1.03rem}
 .intro p:first-child{margin-top:0}.intro p:last-child{margin-bottom:0}
 
+/* term cards (Begriffs-Abbildungen mit Foto-Link) */
+.termcards{display:flex;flex-wrap:wrap;gap:12px;margin:1.1em 0}
+.termcard{display:flex;gap:13px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius-s);padding:12px 14px;flex:1 1 250px;min-width:240px}
+.termcard .termsvg{flex:none;width:84px;height:84px;display:flex;align-items:center;justify-content:center;
+  background:#0b0e13;border:1px solid var(--line);border-radius:8px}
+.termcard .termsvg svg{width:74px;height:74px}
+.termcard .termmeta{display:flex;flex-direction:column;gap:3px;min-width:0}
+.termcard .termmeta b{color:#fff;font-size:.97rem}
+.termcard .termmeta span{color:var(--muted);font-size:.82rem;line-height:1.4}
+.termcard a.photo{font-size:.82rem;font-weight:600;margin-top:3px}
+
 /* figures */
 figure{margin:1.4em 0;text-align:center}
 figure img{max-width:100%;height:auto;border-radius:var(--radius-s);

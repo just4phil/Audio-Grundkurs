@@ -40,9 +40,9 @@ def _table(rows):
     return "".join(out)
 
 
-def convert(md, page_id="p", image_map=None, drop_first_h1=True):
-    """image_map: dict {heading_substring: (data_uri, caption)} -> figure nach passender Überschrift."""
-    image_map = dict(image_map or {})
+def convert(md, page_id="p", after_heading=None, drop_first_h1=True):
+    """after_heading: dict {heading_substring: html} -> HTML-Block direkt nach passender Überschrift einfügen."""
+    after_heading = dict(after_heading or {})
     lines = md.replace("\r\n", "\n").split("\n")
     html_out = []
     title = None
@@ -51,13 +51,9 @@ def convert(md, page_id="p", image_map=None, drop_first_h1=True):
     n = len(lines)
 
     def emit_image_for(heading_text):
-        for key in list(image_map.keys()):
+        for key in list(after_heading.keys()):
             if key.lower() in heading_text.lower():
-                uri, cap = image_map.pop(key)
-                html_out.append(
-                    '<figure><img src="%s" alt="%s" loading="lazy">'
-                    '<figcaption>%s</figcaption></figure>' % (uri, _html.escape(cap, quote=True), _inline(cap))
-                )
+                html_out.append(after_heading.pop(key))
 
     while i < n:
         line = lines[i]
