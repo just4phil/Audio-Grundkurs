@@ -1,0 +1,48 @@
+name: Kurs bauen & veröffentlichen
+
+# Läuft automatisch bei jedem Push auf main – und kann manuell gestartet werden.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Rechte, die der offizielle GitHub-Pages-Deploy braucht
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nie zwei Deploys gleichzeitig
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Kurs bauen (Markdown -> docs/)
+        run: python build_kurs.py
+
+      - name: Pages konfigurieren
+        uses: actions/configure-pages@v5
+
+      - name: docs/ als Pages-Artefakt hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Auf GitHub Pages veröffentlichen
+        id: deploy
+        uses: actions/deploy-pages@v4

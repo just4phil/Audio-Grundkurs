@@ -10,15 +10,20 @@ neu baust und online aktualisierst – auch wenn du länger nicht reingeschaut h
 Die fertigen HTML-Seiten im Ordner **`docs/`** sind **automatisch generiert** –
 **du bearbeitest sie NICHT direkt!** (Änderungen dort würden beim nächsten Bauen überschrieben.)
 
-Der Ablauf ist immer:
+Der Ablauf ist:
 
 ```
 1. Quelldateien bearbeiten   (Markdown-Kapitel oder Dateien in kurs_build/)
-2. Bauen:   python build_kurs.py     →  erzeugt alles neu in docs/
-3. Hochladen: git add / commit / push →  GitHub Pages aktualisiert sich selbst
+2. Hochladen: git add / commit / push
+3. → Eine GitHub Action baut den Kurs automatisch und veröffentlicht ihn.
 ```
 
-> 💡 **Merksatz:** Quelle ändern → `python build_kurs.py` → push. Niemals `docs/` von Hand editieren.
+> 💡 **Merksatz:** Markdown ändern → `git push` → fertig. Den Ordner `docs/` nie von Hand editieren.
+
+**Du musst NICHT mehr selbst bauen.** Eine GitHub Action (`.github/workflows/deploy.yml`)
+führt `python build_kurs.py` bei jedem Push automatisch in der Cloud aus und stellt das Ergebnis
+online. Lokal `python build_kurs.py` zu laufen ist nur noch **optional** – nämlich dann, wenn du
+Änderungen vorher im Browser ansehen willst (siehe Abschnitt 4).
 
 ---
 
@@ -128,9 +133,9 @@ Einfach Werte anpassen und neu bauen.
 
 ---
 
-## 6. Veröffentlichen (Online-Update)
+## 6. Veröffentlichen (Online-Update) – automatisch per GitHub Action
 
-Nach dem Bauen die Änderungen hochladen:
+Du änderst nur die Quelle (z. B. ein `Kapitel_XX.md`) und lädst hoch:
 
 ```bash
 git add -A
@@ -138,13 +143,18 @@ git commit -m "Kurs aktualisiert: <kurz was geändert wurde>"
 git push
 ```
 
-GitHub Pages baut die Seite danach **automatisch neu** (dauert ~1 Minute).
-Die Live-Adresse ist:
+Danach läuft **automatisch** die GitHub Action `.github/workflows/deploy.yml`:
+sie baut den Kurs (`python build_kurs.py`) in der Cloud und veröffentlicht ihn.
+Fortschritt sichtbar unter **Repo → Reiter „Actions“**. Nach ~1–2 Minuten ist die neue Version live:
 
 **https://just4phil.github.io/Audio-Grundkurs/**
 
-> Einmalig nötig (schon erledigt): GitHub-Repo → **Settings → Pages** → Source „Deploy from a branch“,
-> Branch **main**, Ordner **/docs**.
+> **Einmalige Einrichtung (nur beim allerersten Mal):**
+> GitHub-Repo → **Settings → Pages** → unter **„Source“** **„GitHub Actions“** auswählen.
+> (Vorher stand dort „Deploy from a branch /docs“ – das wird durch die Action ersetzt.)
+
+> 💡 Du brauchst Python jetzt **nur noch lokal**, wenn du vor dem Push selbst eine Vorschau bauen willst.
+> Für ein reines Inhalts-Update reicht: Markdown ändern → committen → pushen.
 
 ---
 
@@ -152,12 +162,12 @@ Die Live-Adresse ist:
 
 ```
 [ ] Quelle bearbeitet (Kapitel_XX.md  oder  Datei in kurs_build/)
-[ ] python build_kurs.py   ausgeführt (endet mit „Fertig: …“)
-[ ] docs/index.html im Browser kontrolliert
+[ ] (optional) python build_kurs.py + docs/index.html im Browser ansehen
 [ ] git add -A
 [ ] git commit -m "…"
 [ ] git push
-[ ] ~1 Min warten, dann Live-Seite prüfen
+[ ] Repo → Reiter „Actions“: läuft grün durch?
+[ ] ~1–2 Min warten, dann Live-Seite prüfen
 ```
 
 ---
