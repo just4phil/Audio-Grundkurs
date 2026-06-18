@@ -24,7 +24,7 @@ import termfigs  # noqa: E402
 
 SRC = HERE
 GFX = os.path.join(SRC, "Grafiken")
-OUT = os.path.join(SRC, "Kurs_HTML")
+OUT = os.path.join(SRC, "docs")  # GitHub Pages: Quellordner /docs
 
 # ---------------------------------------------------------------- helpers
 def read(path):
